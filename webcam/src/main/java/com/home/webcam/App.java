@@ -64,6 +64,11 @@ public class App implements NativeKeyListener {
 						robot.keyPress(KeyEvent.VK_DOWN);
 					else
 						robot.keyPress(KeyEvent.VK_UP);
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
@@ -92,7 +97,7 @@ public class App implements NativeKeyListener {
 			f.setVisible(true);
 			BufferedImage current_frame = null, previous_frame = null, image_to_plot = null;
 
-			for (int i = 0; i < 1000; i++) {
+			while (true) {
 				current_frame = webcam.getImage();
 				current_frame = grayScale(current_frame);
 				if (previous_frame != null) {
@@ -108,7 +113,7 @@ public class App implements NativeKeyListener {
 				}
 				previous_frame = current_frame;
 			}
-			webcam.close();
+			// webcam.close();
 		} else {
 			System.out.println("No webcam detected");
 		}
@@ -225,7 +230,7 @@ public class App implements NativeKeyListener {
 	}
 
 	public void nativeKeyPressed(NativeKeyEvent arg0) {
-		if (NativeKeyEvent.getKeyText(arg0.getKeyCode()).equals("Left Control")) {
+		if (NativeKeyEvent.getKeyText(arg0.getKeyCode()).contains("Control")) {
 			monitoring = !(monitoring);
 			System.out.println(monitoring);
 		}
